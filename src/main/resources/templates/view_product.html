@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<section>
+		<div class="container card-sh "
+			style="margin-top: 90px; margin-bottom: 100px">
+			<div class="col-m-12 p-5">
+
+				<th:block th:if="${session.successMsg}">
+					<p class="text-success fw-bold alert alert-success">[[${session.successMsg}]]</p>
+					<th:block
+						th:text="${@commonServiceImpl.removeMessageFromSession()}"></th:block>
+				</th:block>
+
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-danger fw-bold alert alert-danger">[[${session.errorMsg}]]</p>
+					<th:block
+						th:text="${@commonServiceImpl.removeMessageFromSession()}"></th:block>
+				</th:block>
+
+				<div class="row" th:each="p:${productById}">
+					<div class="col-md-6 text-center">
+						<img th:src="@{'/img/product_img/'+${p.prodImage}}" width="330px"
+							height="400px">
+					</div>
+
+					<div class="col-md-6 p-5">
+
+						<p class="fs-3" th:text=${p.title}></p>
+
+						<p>
+							<span class="fw-bold"> Description : </span> <br> <span
+								th:text=${p.description}></span>
+						</p>
+
+						<p>
+							<span class="fw-bold"> Product Details : </span> <br> Status
+							:
+							<th:block th:if="${p.stock > 0}">
+								<span class="badge bg-success"> Available </span>
+							</th:block>
+							<th:block th:unless="${p.stock > 0}">
+								<span class="badge bg-warning"> Out of stock </span>
+								<th:block>
+									<br> Category : <span th:text=${p.category}></span>
+									<br>
+						Policy : 7 Days Replacement & Return  
+					
+						
+						
+						</p>
+
+						<p class="fs-5 fs-bold">
+							Price : &nbsp; &nbsp; &nbsp; &nbsp; Rs <span
+								th:text=${p.discountPrice}></span> <span
+								class="fs-6 text-decoration-line-through text-secondary">
+								[[ ${p.price}]]</span> <span class="fs-6 text-success "
+								th:text="${p.discount} + '% OFF'"></span>
+						</p>
+
+						<div class="row">
+
+							<div class="col-md-4 text-success text-center p-3 ">
+								<i class="fa-solid fa-money-bill-wave"></i>
+								<p>Cash on delivery</p>
+							</div>
+							<div class="col-md-4 text-danger text-center p-3 ">
+								<i class="fa-solid fa-rotate-left"></i>
+								<p>Return Available</p>
+							</div>
+							<div class="col-md-4 text-primary text-center p-3 ">
+								<i class="fa-solid fa-truck"></i>
+								<p>Free Shipping</p>
+							</div>
+
+						</div>
+
+						<th:block th:if="${p.stock > 0}">
+							<th:block th:if="${user==null}">
+								<a href="/login" class="btn btn-success col-md-12"> Add to
+									cart </a>
+							</th:block>
+							<th:block th:unless="${user==null}">
+								<a th:href="@{'/user/addCart?pid='+${p.id}+'&uid='+${user.id}}"
+									class="btn btn-success col-md-12"> Add to cart </a>
+							</th:block>
+						</th:block>
+
+						<th:block th:unless="${p.stock > 0}">
+							<a class="btn btn-warning col-md-12"> Out Of Stock </a>
+						</th:block>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

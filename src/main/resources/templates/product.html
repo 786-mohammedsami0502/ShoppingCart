@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<section>
+		<div class="container-fluid bg-primary p-5">
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<form action="search" method="get">
+						<div class="input-group mt-2">
+							<input type="text" class="form-control" name="ch">
+							<button class="btn btn-light text-dark ms-2 col-md-2">
+								<i class="fa-solid fa-magnifying-glass"></i> Search
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid mt-2">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="card-body shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+						<div class="list-group">
+							<p class="fs-5 text-center">Category</p>
+							<a th:href="@{/product}"
+								class="list-group-item list-group-item-action"
+								aria-current="true"
+								th:classappend="${paramValue == ''} ? 'active' : '' "> ALL </a>
+							<a class="list-group-item list-group-item-action"
+								th:each="c:${categories}"
+								th:href="@{'/product?category='+${c.cateName}}"
+								th:text="${c.cateName}"
+								th:classappend="${paramValue == c.cateName} ? 'active' : '' "></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-10">
+					<div class="card">
+						<div class="card-body">
+							<p class="fs-3 text-center">Products</p>
+
+							<th:block th:if="${productSize>0}">
+								<div class="row">
+									<div class="col-md-3" th:each="p:${products}">
+										<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded ">
+											<div class="card-body text-center">
+												<img th:src="'img/product_img/' + ${p.prodImage}"
+													width="65%" height="140px">
+												<P class="mt-1" th:text=${p.title}></P>
+												<div class="row text-center">
+
+													<p class="fs-6 fw-bold">&#8377; [[${p.discountPrice}]]</p>
+
+													<p class="fw-bold">
+														<span
+															class="fs-6 text-decoration-line-through text-secondary">
+															&#8377; [[${p.price}]]</span> <span class="fs-6 text-success">
+															[[${p.discount}]] % off </span>
+													</p>
+
+													<a class="btn btn-primary col-md-6 offset-md-3"
+														th:href="'/view_product/'+${p.id}">View Details</a>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- TODO : Remove after back end implementation -->
+
+									<!-- <div class="col-md-3">
+								<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded ">
+									<div class="card-body text-center">
+									<img src="img/latest_img/l1.jpg" width="65%" height="140px">
+									<P class="mt-1">LAPTOP</P>
+										<div class="row text-center">
+											<p class="fs-6 fw-bold"> &#8377; 100000
+											<span class="fs-6 text-success"> 20% Off</span>
+											</p>
+											<a class="btn btn-primary col-md-6 offset-md-3">View Details</a>
+										</div>					
+									</div>
+								</div>
+							</div> -->
+
+									<!-- Stating Pagination -->
+
+									<div class="row">
+										<div class="col-md-4">Total Page : [[${totalElements}]]</div>
+										<div class="col-md-6">
+											<th:block th:if="${productSize>0}">
+												<nav aria-label="Page navigation example">
+													<ul class="pagination">
+
+														<li class="page-item"><a class="page-link"
+															th:classappend="${isFirst} ? 'disabled' : ' ' "
+															th:href="@{'/product?pageNo='+${pageNo-1}}">Previous</a></li>
+
+														<li th:each="i:${#numbers.sequence(1,totalPages)}"
+															class="page-item"
+															th:classappend="${pageNo+1==i}?'active':' ' "><a
+															class="page-link"
+															th:href="@{'/product?pageNo=' + ${i-1}}">[[${i}]]</a></li>
+
+
+														<li class="page-item"><a
+															th:classappend="${isLast} ? 'disabled' : ' ' "
+															th:href="@{'/product?pageNo='+${pageNo+1}}"
+															class="page-link">Next</a></li>
+													</ul>
+												</nav>
+											</th:block>
+										</div>
+									</div>
+									
+									<!-- End Pagination  -->
+
+								</div>
+							</th:block>
+
+							<th:block th:unless="${productSize>0}">
+								<p class="fs-4 text-center mt-4 text-danger">Product Not
+									Avaiable</p>
+							</th:block>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</section>
+
+</body>
+</html>

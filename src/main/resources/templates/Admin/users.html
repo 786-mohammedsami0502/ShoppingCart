@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<meta charset="ISO-8859-1">
+<title th:value="${title}"></title>
+</head>
+<body>
+
+<section>
+	<div class="container mt-5 ">
+	<div class="card card-sh">
+		<div class="card-header text-center fs-4"> 
+			<p>View Product</p>
+				<th:block th:if=${session.successMsg}>
+					<p class="text-center text-success" th:text=${session.successMsg}></p>
+					<th:block th:text="${@commonServiceImpl.removeMessageFromSession()}"></th:block>
+				</th:block>
+		</div>
+		
+		<div class="card-body">
+			<div class="card-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">S.no</th>
+							<th scope="col">Profile</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Mobile Number</th>
+							<th scope="col">Address/th>
+							<th scope="col">Status</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr th:each="u,c:${users}">
+							<th scope="row" th:text=${c.count}></th>
+							<td>
+								<img th:src="@{'/img/user_img/' + ${u.image}}" 
+								width=50px height="50px">
+							</td>
+							<td th:text=${u.name}></td>
+							<td th:text=${u.email}></td>
+							<td th:text=${u.number}></td>
+							<td th:text=${u.address}></td>
+							<td th:text=${u.isEnabled}></td>
+							<td>
+								<a th:href="@{'/admin/updateStatus?status=true&id='+${u.id}}"
+										      	class="btn btn-primary btn-sm">
+										      	 Active </a>
+								
+								<a th:href="@{'/admin/updateStatus?status=false&id='+${u.id}}" 
+										      	class="btn btn-danger btn-sm">
+										      	 In_Active</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>			
+		</div>
+	</div>
+	</div>
+	</div>
+</section>
+
+</body>
+</html>

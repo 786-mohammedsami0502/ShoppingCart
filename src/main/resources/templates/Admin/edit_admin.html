@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<section>
+		<div class="container mt-5 p-5 offset-md-3">
+			<div class="row">
+				<div class="col-md-7 mt-3 p-2">
+					<div class="card shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+
+						<div class="card-header">
+							<p class="fs-4 text-center">Edit Admin</p>
+
+							<th:block th:if="${session.successMsg}">
+								<p class="text-success fw-bold">[[${session.successMsg}]]</p>
+								<th:block
+									th:text="${@commonServiceImpl.removeMessageFromSession()}"></th:block>
+							</th:block>
+
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+								<th:block
+									th:text="${@commonServiceImpl.removeMessageFromSession()}"></th:block>
+							</th:block>
+
+						</div>
+
+						<div class="card-body ">
+
+							<form action="/admin/edit-admin" method="POST"
+								enctype="multipart/form-data" th:each="a:${admin}">
+
+								<div class="row" >
+									<div class=" col mb-3">
+										<label class="form-label">Name</label> <input
+											class="form-control" name="name" type="text"
+											th:value=${a.name} required>
+									</div>
+
+									<div class=" col mb-3">
+										<label class="form-label">Mobile Number</label> <input
+											class="form-control" name="number" type="number"
+											th:value=${a.number} required>
+									</div>
+								</div>
+
+								<div class=" col mb-3">
+									<label class="form-label">Email</label> <input
+										class="form-control" name="email" type="email"
+										th:value="${a.email}" required>
+								</div>
+
+								<div class="row">
+									<div class=" col mb-3">
+										<label class="form-label">Address</label> <input
+											class="form-control" name="address" type="text"
+											th:value=${a.address} required>
+									</div>
+
+									<div class=" col mb-3">
+										<label class="form-label">City</label> <input
+											class="form-control" name="city" type="text"
+											th:value=${a.city} required>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class=" col mb-3">
+										<label class="form-label">State</label> <input
+											class="form-control" name="state" type="text"
+											th:value=${a.state} required>
+									</div>
+
+									<div class=" col mb-3">
+										<label class="form-label">Pincode</label> <input
+											class="form-control" name="pincode" type="number"
+											th:value=${a.pincode} required>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class=" col mb-3">
+										<label class="form-label">Password</label> <input
+											class="form-control" name="password" type="password"
+											th:value=${a.password} required>
+									</div>
+								</div>
+
+								<div class=" col mb-3">
+									<label class="form-label">Profile Image</label> <input
+										class="form-control" name="file" type="file" required>
+								</div>
+
+								<button type="submit"
+									class="btn bg-primary text-white col-md-12">Register</button>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+</body>
+</html>

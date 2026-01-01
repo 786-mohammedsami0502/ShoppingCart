@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" th:replace ="~{base::layout(~{::section})}" >
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<section>
+
+	
+	<div class="container p-5 mt-3">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<div class="card card-sh">
+					<div class="card-header text-center fs-4"> Edit Product 
+					
+						<th:block th:if=${session.successMsg}>
+							<p class="text-success fw-bold" th:text="${session.successMsg}"></p>
+							<th:block th:text=${@commonServiceImpl.removeMessageFromSession()}></th:block>
+						</th:block>
+						
+						<th:block th:if=${session.errorMsg}>
+							<p class="text-danger fw-bold" th:text="${session.errorMsg}"></p>
+							<th:block th:text=${@commonServiceImpl.removeMessageFromSession()}></th:block>
+						</th:block>
+					
+					</div>
+					
+					
+						<div class="card-body">
+							<form action="/admin/updateProduct" enctype="multipart/form-data" method="POST"
+								th:each=p:${product}> 
+								<input type="hidden" name="id" th:value=${p.id}>
+								<div class="mb-3">
+									<label>Enter Title</label>	
+									<input name="title" type="text" class="form-control" th:value="${p.title}">
+								</div>
+								
+								<div class="mb-3">
+									<label>Enter Description</label>	
+									<textarea name="description" rows="3" cols="" class="form-control" 
+										th:text="${p.description}">
+									</textarea>
+								</div>
+								
+								<div class="mb-3">
+									<label>Category</label>	
+									<select name="category" class="form-control">
+										<option th:each="p:${product}"
+										 th:text="${p.category}"></option>
+										<option ></option>
+									</select>
+								</div>
+								
+								<div class="mb-3">
+									<label>Enter Price</label>	
+									<input name="price"  type="number" class="form-control" th:value="${p.price}"></input>
+								</div>
+								
+								<div class='row'>
+									<div class=" col mb-3">
+										<label>Enter Discount</label>	
+										<input name="discount" type="number" class="form-control" th:value="${p.discount}">
+									</div>
+									
+									<div class=" col mb-3">
+										<label>Discount Price</label>	
+										<input name="discountPrice" type="number" class="form-control" th:value="${p.discountPrice}"
+										readonly >
+									</div>
+								</div>
+								
+								<div class="mb-3">
+										<label>Status</label>
+										
+										<div class="form-check">
+											  <input class="form-check-input" type="radio" 
+											  name="isActive" id="radioDefault1"
+											  th:checked="${p.isActive==true}" value="true">
+											  <label class="form-check-label" for="radioDefault1">
+											    Active
+											  </label>
+										</div>
+										<div class="form-check">
+											  <input class="form-check-input" type="radio"
+											  name="isActive" id="radioDefault2" 
+											  th:checked="${p.isActive==false}" value="false">
+											  <label class="form-check-label" for="radioDefault2">
+											    Inactive
+											  </label>
+										</div>
+								</div>
+								
+								<div class='row'>
+									<div class=" col mb-3">
+										<label>Enter Stock</label>	
+										<input name="stock" type="number" class="form-control" th:value="${p.stock}">
+									</div>
+									
+									<div class="col mb-3">
+										<label>Upload Image</label>
+										<img th:src="@{'/img/product_img/' + ${p.prodImage}}" width=100px height=100px>
+										<input name="file" type="file" class="form-control">
+									</div>
+								</div>
+								
+								<button class="btn btn-primary col-md-12"> Update </button>
+								<a class="btn btn-primary mt-2 col-md-12"
+								th:href="@{'/admin/view_product'}"> Back </a>
+							</form>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+</body>
+</html>
